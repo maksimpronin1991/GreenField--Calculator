@@ -14,7 +14,6 @@ keyButtons.forEach(key => {
             isResultDisplayed = false;
         }
         calcInput.value += key.textContent;
-        console.log(calcInput.value)
     });
 });
 
@@ -36,11 +35,37 @@ backButton.addEventListener("click", () => {
 
 equalButton.addEventListener("click", () => {
     try {
-        const result = Function('"use strict";return (' + calcInput.value + ')')();
-        calcInput.value = result;
+        if (calcInput.value.includes("%")) {
+            let expression = calcInput.value;
+            let operator = expression.match(/[-+*/]/)[0];
+            let [firstNumber, secondNumber] = expression.split(operator);
+
+            firstNumber = parseFloat(firstNumber);
+            secondNumber = parseFloat(secondNumber);
+
+            let result;
+            if (operator === '+') {
+                // Для сложения и вычитания: первое число + (первое число * процент)
+                result = firstNumber + (firstNumber * (secondNumber / 100));
+            } else if (operator === '*') {
+                // Для умножения: (первое число * процент)
+                result = firstNumber * (secondNumber / 100);
+            } else if (operator === '/') {
+                // Для деления: первое число / (100 / процент)
+                result = firstNumber / (100 / secondNumber);
+            } else if (operator === '-') {
+                // Для деления: первое число / (100 / процент)
+                result = firstNumber - (firstNumber * (secondNumber / 100));
+            }
+
+            calcInput.value = result;
+        } else {
+            const result = Function('"use strict";return (' + calcInput.value + ')')();
+            calcInput.value = result;
+        }
         isResultDisplayed = true;
     } catch (error) {
-        calcInput.value = result;
+        calcInput.value = "Error";
         isResultDisplayed = true;
     }
 });
