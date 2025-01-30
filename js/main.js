@@ -45,16 +45,12 @@ equalButton.addEventListener("click", () => {
 
             let result;
             if (operator === '+') {
-                // Для сложения и вычитания: первое число + (первое число * процент)
                 result = firstNumber + (firstNumber * (secondNumber / 100));
             } else if (operator === '*') {
-                // Для умножения: (первое число * процент)
                 result = firstNumber * (secondNumber / 100);
             } else if (operator === '/') {
-                // Для деления: первое число / (100 / процент)
                 result = firstNumber / (100 / secondNumber);
             } else if (operator === '-') {
-                // Для деления: первое число / (100 / процент)
                 result = firstNumber - (firstNumber * (secondNumber / 100));
             }
 
